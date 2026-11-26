@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أبطال الهيكل العظمي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e2a3a;--panel:#143a4f;--ink:#efe6d2;--mut:#9fb8c4;--xr:#5fd4e6;--key:#f2b441;--ok:#4cc38a;--bad:#ef6a5b;--line:#2b5a73;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#0e2a3a}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,"Segoe UI",sans-serif;line-height:1.7}
+main{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:clamp(26px,6vw,38px);font-weight:900;margin:8px 0 4px;color:var(--ink)}
+p{margin:0 0 12px;color:var(--mut)}
+.spine{display:flex;gap:8px;justify-content:center;margin:18px 0 22px}
+.v{width:54px;height:54px;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;border:2px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:22px;color:var(--mut);background:var(--panel);transition:.4s}
+.v.cur{border-color:var(--xr);color:var(--xr);box-shadow:0 0 14px #5fd4e655}
+.v.done{background:var(--key);border-color:var(--key);color:#3a2a00}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.st{color:var(--xr);font-weight:700;margin-bottom:2px}
+.q{font-size:20px;font-weight:700;margin:6px 0 16px;color:var(--ink)}
+.opts{display:grid;gap:10px}
+button{font:inherit;cursor:pointer}
+.o{background:transparent;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 14px;text-align:right;font-size:18px;font-weight:500}
+.o:hover:not(:disabled){border-color:var(--xr)}
+.o.ok{background:var(--ok);border-color:var(--ok);color:#06281a;font-weight:700}
+.o.no{border-color:var(--bad);color:var(--bad);opacity:.7;animation:sh .3s}
+@keyframes sh{25%{transform:translateX(6px)}75%{transform:translateX(-6px)}}
+.go{background:var(--xr);color:#06303a;border:0;border-radius:12px;padding:12px 26px;font-size:19px;font-weight:900;margin-top:16px}
+button:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.bar{height:6px;background:var(--line);border-radius:4px;margin-bottom:14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--xr);transition:.3s}
+.key{text-align:center}.key .big{font-size:64px;font-weight:900;color:var(--key);line-height:1.1}
+.fb{min-height:28px;margin-top:12px;font-weight:700}
+.stars{font-size:34px;letter-spacing:4px;color:var(--key)}
+#hud{display:flex;justify-content:space-between;font-weight:700;color:var(--key);margin-bottom:10px}.rw{font-size:22px;margin:8px 0}.o.rv{background:var(--ok);border-color:var(--ok);color:#06281a;font-weight:700}.sm{font-size:16px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>أبطال الهيكل العظمي</h1>
+<p id="sub">أنجز 5 مهام، واجمع الدرجات والنجوم والشارات حتى تفتح باب الكنز الذهبي!</p>
+<div class="spine" id="spine"></div>
+<div class="card" id="card"></div>
+</main>
+<script>
+const S=[
+{t:"المهمة الأولى: مهمة المفصل الذكية",c:[
+["الموضع الذي تلتقي فيه عظمتان أو أكثر يسمى:",["الغضروف","المفصل","العظم"],1],
+["من وظائف المفصل في جسم الإنسان:",["حماية العظام من التآكل وتقليل الاحتكاك","تسهيل الحركة والسماح بالتحرك بزوايا مختلفة","جميع ما سبق"],2],
+["تعمل الغضاريف بين أطراف العظام في المفصل مثل:",["وسادة","عائق","أربطة"],0]]},
+{t:"المهمة الثانية: مغامرة الهيكل العظمي الذكية",c:[
+["الغضاريف نسيج مرن يوجد عند نهايات العظام، وظيفتها حماية العظام من الاحتكاك.",["صح","غلط"],0],
+["تعتبر الجمجمة علبة عظمية تحمي القلب والرئتين.",["صح","غلط"],1,"التصحيح: تحمي المخ وأعضاء الحس."],
+["العمود الفقري هو المحور الأساسي للجسم.",["صح","غلط"],0],
+["أكمل: تعتبر الجمجمة علبة عظمية تعمل على حماية …… وأعضاء الحس مثل العينين والأذنين والأنف.",["القلب","المخ","الرئتين"],1]]},
+{t:"المهمة الثالثة: مغامرة في البحث عن الكنز",c:[
+["تقع المفاصل عند التقاء أجزاء …… في الجسم.",["العظام","العضلات"],0],
+["يستخدم مفصل الكوع والركبة في حركة الثني و……",["الدوران","الفرد"],1],
+["تتميز الرقبة بأن مفصلها يستخدم للحركة في جميع الاتجاهات بشكل دائري / ……",["حر","ثابت"],0],
+["مفصل الكتف يعتبر من المفاصل ……",["واسعة الحركة","محدودة الحركة"],0],
+["مفصل الركبة يعتبر من المفاصل ……",["واسعة الحركة","محدودة الحركة"],1]]},
+{t:"المهمة الرابعة: مغامرة البحث عن الكنز في المستوى الأخير",c:[
+["الطبقة الملساء بين العظمتين المتقابلتين:",["تسمى الغضروف","عند نهايات العظام بين المفاصل","منع احتكاك العظام وتآكلها أثناء الحركة"],0],
+["مكان وجود الغضاريف:",["تسمى الغضروف","عند نهايات العظام بين المفاصل","منع احتكاك العظام وتآكلها أثناء الحركة"],1],
+["وظيفة الغضاريف بين المفاصل:",["تسمى الغضروف","عند نهايات العظام بين المفاصل","منع احتكاك العظام وتآكلها أثناء الحركة"],2]]},
+{t:"المهمة الخامسة: فتح باب الكنز الذهبي",c:[
+["تعد حماية الأعضاء الداخلية الحيوية كالمخ والقلب من وظائف العظام.",["صح","خطأ"],0],
+["تساعد العضلات على تحريك العظام من خلال الانقباض والانبساط.",["صح","خطأ"],0],
+["إعطاء الجسم شكله وقوامه المتماسك هو إحدى وظائف العضلات فقط.",["صح","خطأ"],1,"التصحيح: هو من وظائف العظام."],
+["صنّف: دعم الجسم",["العظام","العضلات"],0],
+["صنّف: حماية الأعضاء",["العظام","العضلات"],0],
+["صنّف: الانقباض والانبساط",["العظام","العضلات"],1]]}
+];
+const code=[4,1,7,3,9];
+const RW=[
+{b:["🏅 شارة خبيرة العظام والمفاصل"],st:3,g:0},
+{b:["🏅 شارة خبير الهيكل العظمي"],st:0,g:0},
+{b:["💎 الكنز"],st:0,g:0},
+{b:["💎 الكنوز","🏅 عبقري الهيكل العظمي"],st:0,g:3},
+{b:["🛡️ حارس الهيكل العظمي والعضلات"],st:3,g:0}];
+let si=0,qi=0,tr=0,ms=0,tot=0,perf=true,lock=false,got=[],stars=0,gold=0;
+const card=document.getElementById("card"),spine=document.getElementById("spine");
+function sp(){spine.innerHTML=S.map((_,i)=>`<div class="v ${i<si?"done":i==si?"cur":""}">${i<si?"✓":i+1}</div>`).join("")}
+function hud(){return `<div id="hud"><span>الدرجات: ${tot+ms}</span><span>⭐ ${stars} ${gold?"🌟 "+gold:""}</span></div>`}
+function intro(){si=qi=tot=ms=stars=gold=0;got=[];sp();card.innerHTML=`<div class="st">أهلا بالأبطال!</div><div class="q">الإجابة الصحيحة من أول مرة = 10 درجات. من المحاولة الثانية = 5 درجات. وإذا أخطأت مرتين تظهر لك الإجابة الصحيحة بدون درجات. أنجز كل مهمة من أول مرة لتحصل على الشارات!</div><button class="go" onclick="start()">ابدأ المهمة الأولى</button>`}
+function start(){qi=0;ms=0;perf=true;show()}
+function show(){
+ sp();const s=S[si],q=s.c[qi];lock=false;tr=0;
+ card.innerHTML=hud()+`<div class="bar"><i style="width:${qi/s.c.length*100}%"></i></div><div class="st">${s.t}</div><div class="q">${q[0]}</div><div class="opts">${q[1].map((o,i)=>`<button class="o" onclick="pick(${i},this)">${o}</button>`).join("")}</div><div class="fb" id="fb" aria-live="polite"></div>`}
+function pick(i,b){
+ if(lock)return;const q=S[si].c[qi],fb=document.getElementById("fb");
+ if(i==q[2]){lock=true;b.classList.add("ok");const p=tr==0?10:5;ms+=p;
+  fb.innerHTML=`إجابة صحيحة! +${p} درجات ${q[3]||""}`;fb.style.color="var(--ok)";
+  setTimeout(nx,q[3]?2200:1000)}
+ else{tr++;perf=false;b.classList.add("no");b.disabled=true;
+  if(tr==1){fb.textContent="حاول مرة أخرى (المحاولة الثانية = 5 درجات)";fb.style.color="var(--bad)"}
+  else{lock=true;const bs=document.querySelectorAll(".o");bs.forEach(x=>x.disabled=true);bs[q[2]].classList.add("rv");
+   fb.innerHTML=`الإجابة الصحيحة: ${q[1][q[2]]} ${q[3]||""}<br><button class="go" onclick="nx()">التالي</button>`;fb.style.color="var(--bad)"}}}
+function nx(){qi++;qi<S[si].c.length?show():done()}
+function done(){
+ tot+=ms;const r=RW[si];sp();let h="";
+ if(perf){stars+=r.st;gold+=r.g;got.push(...r.b);
+  h=`<div class="st">أحسنت! أنجزت المهمة من أول مرة</div><div class="rw">${r.b.join("<br>")}</div><div class="stars">${"★".repeat(r.st)}${r.g?"<span>"+"🌟".repeat(r.g)+"</span>":""}</div>`}
+ else h=`<div class="st">انتهت المهمة</div><div class="q">لم تحصل على الشارة هذه المرة. الشارة لمن يجيب كل الأسئلة صح من أول مرة.</div><button class="go" onclick="tot-=ms;start()">أعد المهمة لتحصل على الشارة</button><br>`;
+ h+=`<p class="sm">درجات هذه المهمة: ${ms}</p>`;
+ card.innerHTML=hud()+`<div class="key">`+h+(si<S.length-1?`<button class="go" onclick="si++;start()">المهمة التالية</button>`:`<button class="go" onclick="fin()">النتيجة النهائية</button>`)+`</div>`}
+function fin(){si=S.length;sp();const mx=S.reduce((a,s)=>a+s.c.length*10,0);
+ card.innerHTML=`<div class="key"><div class="st">فتحت باب الكنز الذهبي!</div><div class="big">${tot} / ${mx}</div><div class="stars">⭐ ${stars} ${gold?"🌟 "+gold:""}</div><div class="rw">${got.join("<br>")||"حاول مرة أخرى لتجمع الشارات"}</div><button class="go" onclick="intro()">العب من جديد</button></div>`}
+intro();
+</script>
+</body>
+</html>
